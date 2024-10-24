@@ -1,2 +1,6 @@
 # literallyethan.github.io
-Operation Spark FSD
+
+This is my portfolio website!
+
+Here is where I will post the projects that I am excited to
+show off.

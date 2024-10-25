@@ -9,6 +9,7 @@
 //  - on loss, display all unflagged mine locations
 //  - arrowkey support
 //  - isolate all rendering / input in 'view' (make cross-platform with prepro)
+//  - have text render centered
 
 void usage() {
     puts("Usage: ");

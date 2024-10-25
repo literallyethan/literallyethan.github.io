@@ -31,12 +31,16 @@ void game_win() {
 // we will use termios.h to handle button events
 
 int main(int argc, char* argv[]) {
+    char difficulty[2] = " ";
+    
     if(argc < 2) {
-        usage();
-        return 1;
+        puts("Choose difficulty (easy, medium, hard)");
+        difficulty[0] = getchar();
+    } else {
+        difficulty[0] = argv[1][0];
     }
     
-    if(initialize_game(argv[1])) {
+    if(initialize_game(difficulty[0])) {
         puts("Initialization failed.");
         return 1;
     }

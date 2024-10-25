@@ -2,7 +2,7 @@
 #define DATA_H
 
 // creates starting data to draw game off of
-int initialize_game(char* mode);
+int initialize_game(char mode);
 
 void close_game();
 

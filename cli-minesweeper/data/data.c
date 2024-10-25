@@ -182,14 +182,14 @@ void populate_mines() {
 
 }
 
-int initialize_game(char* mode) {
+int initialize_game(char mode) {
     GAME_DATA = malloc(sizeof(struct DATA));
     if (GAME_DATA == NULL) {
         puts("Data failed to initialize.");
         return 1;
     }
 
-    switch(mode[0]) {
+    switch(mode) {
         case 'e':
             GAME_DATA->width = 10;
             GAME_DATA->height = 8;

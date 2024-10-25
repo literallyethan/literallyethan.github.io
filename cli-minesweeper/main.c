@@ -6,10 +6,9 @@
 // With a lot of this same code, I can make an ascii art canvas program...
 
 // TODO:
-//  - made difficulty choosable on startup
-//  - arrowkey support
 //  - on loss, display all unflagged mine locations
-//  - move all platform specific code to one module
+//  - arrowkey support
+//  - isolate all rendering / input in 'view' (make cross-platform with prepro)
 
 void usage() {
     puts("Usage: ");

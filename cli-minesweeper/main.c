@@ -16,6 +16,7 @@
 //        in the cyan brackets, or if no number then only brackets will be shown.
 //  - isolate all rendering / input in 'view' (make cross-platform with prepro)
 //  - have text render centered
+//  - maybe have the mines generate from the center out to have center-focused mines
 
 void usage() {
     puts("Usage: ");

@@ -8,6 +8,12 @@
 // TODO:
 //  - on loss, display all unflagged mine locations
 //  - arrowkey support
+//  - have a way to hide cursor
+//      (what if cursor is only the brackets without *, so you can see number)
+//      - Cursor will be the cyan brackets. If the block is hidden/flagged, whatever
+//       the cursor is covering will also be cyan.
+//      - If the cell is uncovered, the cursor will display the colored number
+//        in the cyan brackets, or if no number then only brackets will be shown.
 //  - isolate all rendering / input in 'view' (make cross-platform with prepro)
 //  - have text render centered
 

@@ -439,11 +439,14 @@ int action_cursor(char action) {
             
             break;
         case ' ':
-            if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].has_mine) {
-                return -1;
-            } else {
-                clear_space(&(GAME_DATA->board[cursor.cursorY][cursor.cursorX]));
+            if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].flagged == 0) {
+                if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].has_mine) {
+                    return -1;
+                } else {
+                    clear_space(&(GAME_DATA->board[cursor.cursorY][cursor.cursorX]));
+                }
             }
+            
             break;
         default:
             puts("Invalid action.");

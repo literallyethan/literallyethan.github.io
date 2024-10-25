@@ -1,10 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <termios.h>
 #include "data/data.h"
 #include "input/input.h"
 
 // With a lot of this same code, I can make an ascii art canvas program...
+
+// TODO:
+//  - made difficulty choosable on startup
+//  - arrowkey support
+//  - on loss, display all unflagged mine locations
+//  - move all platform specific code to one module
 
 void usage() {
     puts("Usage: ");
@@ -44,7 +49,6 @@ int main(int argc, char* argv[]) {
         puts(serialize_board());
         puts("------------------------");
         status = action_cursor(poll_input());
-        // update game change data based on input
     }
 
     if(status == -1) {

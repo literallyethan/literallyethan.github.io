@@ -5,6 +5,7 @@
 #include <string.h>
 #include <time.h>
 
+
 enum cell_state {
     CELL_EMPTY,
     CELL_MINE,
@@ -110,39 +111,20 @@ int count_touching_mines(int y, int x) {
 }
 
 void clear_space(struct cell* current_cell) {
-    /*// TODO: implement
 
-    // recursive
-
-    // maybe use a cell pointer as arg
-    // so I can recurse using the cell_refs array
-    //struct cell* current_cell = &(GAME_DATA->board[y][x]);
-
-    if(current_cell->mines_touching == 0) {
-        for(int i = 0; i < 8; ++i) {
-            if (current_cell->cell_refs[i] == NULL) {
-                continue;
-            }
-            current_cell->cell_refs[i]->covered = 0;
-            //clear_space(current_cell->cell_refs[i]);
-        }
-    }
-
-    current_cell->covered = 0; */
-
-    // If the cell is already uncovered, return
+    // if the cell is already uncovered, return
     if (!current_cell->covered) {
         return;
     }
 
-    // Uncover the current cell
+    // uncover cell
     current_cell->covered = 0;
 
-    // If the current cell has no mines touching, continue to uncover neighbors
+    // if the current cell has no mines touching, continue to uncover neighbors
     if (current_cell->mines_touching == 0) {
         for (int i = 0; i < 8; ++i) {
             if (current_cell->cell_refs[i] != NULL && current_cell->cell_refs[i]->covered) {
-                // Recursive call on neighboring cells
+                // recursive call
                 clear_space(current_cell->cell_refs[i]);
             }
         }
@@ -150,15 +132,7 @@ void clear_space(struct cell* current_cell) {
 }
 
 void populate_mines() {
-    // current algorithm idea:
-    // for each cell, have a low chance to place
-    // a mine in the cell. Continue until mines_left = 0.
-    // If after so many iterations passes with mines left, mix up
-    // the traversal pattern and increase odds of mine generation.
     
-    // start with 10% chance of mine generation.
-    // after so many iterations, change to 20%.
-    // Then, increase to 30%.
     int mines_left = GAME_DATA->mine_count;
     int height = GAME_DATA->height;
     int width = GAME_DATA->width;
@@ -251,10 +225,6 @@ int initialize_game(char mode) {
         }
     }
 
-    //cursor = malloc(sizeof(int8_t));
-   
-    // may not need to allocate if its size 1
-    //cursor = &(GAME_DATA->board[(GAME_DATA->height) / 2][(GAME_DATA->width) / 2]);
     cursor.cursorX = (GAME_DATA->width) / 2;
     cursor.cursorY = (GAME_DATA->height) / 2;
 
@@ -272,8 +242,6 @@ void close_game() {
         BOARD_STRING = NULL;
     }
 
-    //free(cursor);
-    //cursor = NULL;
     free(GAME_DATA->board);
     GAME_DATA->board = NULL;
     free(GAME_DATA);
@@ -298,29 +266,6 @@ char* serialize_board() {
     }
 
     BOARD_STRING[0] = '\0';
-    /*
-        spaces represented by .
-
-        ...1..2..3.
-        1.[ ][ ][ ]
-        2.[ ][ ][ ]
-    */
-    /*
-    // first draw the label row
-    BOARD_STRING[0] = ' ';
-    BOARD_STRING[1] = ' ';
-    int offset = 2; // this is so I can track how far I've written in the string
-    for(int i = 0; i < (GAME_DATA->width); ++i) {
-        strcat(BOARD_STRING, " ");
-        BOARD_STRING[strlen(BOARD_STRING)] = i + '1'; // evil magic to print (char) i + 1
-        BOARD_STRING[strlen(BOARD_STRING)] = '\0'; 
-        strcat(BOARD_STRING, " ");
-        offset += 3;
-    }
-    BOARD_STRING[offset] = '\n';
-    int row_size = offset; // know how big each "row" is now
-    ++offset;
-    */
 
     int offset = 0;  // Track where in the string we are writing
     // loop for drawing each row proper
@@ -380,12 +325,8 @@ char* serialize_board() {
             } else {
                 offset += sprintf(BOARD_STRING + offset, "   ");
             } 
-
-            
-            //offset += 3;
         }
         offset += sprintf(BOARD_STRING + offset, "\n");
-        //++offset;
     }
 
     BOARD_STRING[strlen(BOARD_STRING)] = '\0';
@@ -397,6 +338,8 @@ char* serialize_board() {
 }
 
 int action_cursor(char action) {
+    struct cell* current_cell = &(GAME_DATA->board[cursor.cursorY][cursor.cursorX]);
+
     switch(action) {
         case 'w':
             if(cursor.cursorY != 0) {
@@ -420,16 +363,21 @@ int action_cursor(char action) {
             break;
         case 'f':
             // when you flag
-            if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].flagged == 1) {
-                GAME_DATA->board[cursor.cursorY][cursor.cursorX].flagged = 0;
+
+            if(current_cell->covered == 0) {
+                break;
+            }
+
+            if(current_cell->flagged == 1) {
+                current_cell->flagged = 0;
                 GAME_DATA->flags_left += 1;
-                if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].has_mine) {
+                if(current_cell->has_mine) {
                     GAME_DATA->mines_flagged -= 1;
                 }
             } else if(GAME_DATA->flags_left > 0) {
-                GAME_DATA->board[cursor.cursorY][cursor.cursorX].flagged = 1;
+                current_cell->flagged = 1;
                 GAME_DATA->flags_left -= 1;
-                if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].has_mine) {
+                if(current_cell->has_mine) {
                     GAME_DATA->mines_flagged += 1;
                     if(check_win() == 1) {
                         return 1;
@@ -439,11 +387,11 @@ int action_cursor(char action) {
             
             break;
         case ' ':
-            if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].flagged == 0) {
-                if(GAME_DATA->board[cursor.cursorY][cursor.cursorX].has_mine) {
+            if(current_cell->flagged == 0) {
+                if(current_cell->has_mine) {
                     return -1;
                 } else {
-                    clear_space(&(GAME_DATA->board[cursor.cursorY][cursor.cursorX]));
+                    clear_space(current_cell);
                 }
             }
             

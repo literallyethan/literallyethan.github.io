@@ -1,6 +1,10 @@
 #ifndef DATA_H
 #define DATA_H
 
+struct cell;
+struct cursor;
+struct DATA;
+
 // creates starting data to draw game off of
 int initialize_game(char mode);
 

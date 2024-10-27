@@ -14,9 +14,16 @@
 //       the cursor is covering will also be cyan.
 //      - If the cell is uncovered, the cursor will display the colored number
 //        in the cyan brackets, or if no number then only brackets will be shown.
-//  - isolate all rendering / input in 'view' (make cross-platform with prepro)
-//  - have text render centered
-//  - maybe have the mines generate from the center out to have center-focused mines
+
+/*
+    NOTE:
+    This project is being put in stasis
+    seeing how it is functionally complete and there is nothing left for me
+    here to learn. Someday I may come back and implement the final
+    QoL features.
+
+    For now, cli-minesweeper has the "Ethan Certificate of Completion"
+*/
 
 void usage() {
     puts("Usage: ");

@@ -21,6 +21,11 @@ Project 1: Minesweeper
     module is a weird amalgamation of game logic and visual display.
     In the future I will work to separate those two functions for other projects.
 
+    To run, enter the project directory in terminal and type `make`.
+    After you can either run the executable by clicking on the icon in your file manager
+    or by running `./minesweeper` or `./minesweeper [easy/medium/hard]` in terminal.
+    GAME ONLY WORKS ON MAC/LINUX!!! (For now.)
+
     CONTROLS:
         [W/A/S/D] for moving the cursor
         [F] to flag the tile the cursor hovers over

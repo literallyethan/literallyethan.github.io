@@ -32,6 +32,11 @@ Project 1: Minesweeper
         [SPACE] for uncovering the cursor'd tile.
         [CTRL+C] ([CMD+.] for mac) for exiting the game.
 
+    KNOWN BUGS:
+        - Sometimes the amount of flags remaining can desync from
+          the amount of flags places, meaning a player can flag all of the mines
+          and get softlocked.
+
 
 Project 2: Game Engine (long-term)
     This is a long-term project to help me understand the mechanics of

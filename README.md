@@ -33,3 +33,11 @@ Project 1: Minesweeper
         [CTRL+C] ([CMD+.] for mac) for exiting the game.
 
 
+Project 2: Game Engine (long-term)
+    This is a long-term project to help me understand the mechanics of
+    game engines and how they work under the hood. Being such a large
+    and complicated project, I expect it to teach me good practice about making
+    large and complicated software projects.
+
+    Because of the long-term nature of this project, expect it to
+    be in development on and off and to change drastically in between versions.

@@ -19,4 +19,17 @@ SECTION 1.
     Of course, the loop displayed above is an abstraction
     to show the general order of operations.
 
+SECTION 2.
+    MODULES
+
     
+
+SECTION 3.
+    DATA FLOW
+
+    Each module of the game is single-responsibility,
+    that is, it only does one thing.
+
+    If you can't decide if something should go in one module
+    or another, it should be its own module.
+

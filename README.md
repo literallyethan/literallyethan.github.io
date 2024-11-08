@@ -46,3 +46,6 @@ Project 2: Game Engine (long-term)
 
     Because of the long-term nature of this project, expect it to
     be in development on and off and to change drastically in between versions.
+
+Project 3: bibleverse
+    Project that prints a random Bible verse to the terminal.

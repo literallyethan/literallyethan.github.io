@@ -11,7 +11,7 @@
 
 size_t seek_verse(char verse[], size_t line);
 size_t get_line(char extern_buf[], size_t len, FILE *stream);
-size_t generate_random();
+size_t generate_random(void);
 
 /* Read a verse from bible.txt randomly and print it. */
 int main(void)
@@ -45,7 +45,7 @@ size_t seek_verse(char verse[], size_t line)
         return FALSE;
     }
 
-    for (int i = 0; i < line - 1; ++i)
+    for (uint32_t i = 0; i < line - 1; ++i)
     {
         /* Throw away lines */
         get_line(verse, 0, bible);
@@ -73,7 +73,7 @@ size_t get_line(char extern_buf[], size_t len, FILE *stream)
         return(FALSE);
     }
 
-    for (int i = 0; i < len; ++i)
+    for (uint32_t i = 0; i < len; ++i)
     {
         if ((character = getc(stream)) != EOF)
         {
@@ -96,7 +96,7 @@ size_t get_line(char extern_buf[], size_t len, FILE *stream)
 }
 
 /* Generate number from 1 to VERSE_COUNT (naively seeded) */
-size_t generate_random()
+size_t generate_random(void)
 {
     uint16_t random;
     uint16_t lower_bound = 3;

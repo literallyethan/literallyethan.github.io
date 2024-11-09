@@ -4,13 +4,14 @@
 #include <stdint.h>
 #include <time.h>
 
-#define VERSE_COUNT 31102
-#define VERSE_SIZE 500
+#define VERSE_COUNT 31104
+#define VERSE_SIZE 2000
 #define TRUE 1
 #define FALSE 0
 
-int seek_verse(char verse[], int line);
-int generate_random();
+size_t seek_verse(char verse[], size_t line);
+size_t get_line(char extern_buf[], size_t len, FILE *stream);
+size_t generate_random();
 
 /* Read a verse from bible.txt randomly and print it. */
 int main(void)
@@ -26,13 +27,15 @@ int main(void)
         exit(-1);
     }
 
+    puts(verse_buf);
+
     return(0);
 }
 
 /* Place some verse at `line` in `verse` */
-int seek_verse(char verse[], int line)
+size_t seek_verse(char verse[], size_t line)
 {
-    FILE* bible;
+    FILE *bible;
 
     bible = fopen("bible.txt", "r");
 
@@ -42,17 +45,61 @@ int seek_verse(char verse[], int line)
         return FALSE;
     }
 
-    
+    for (int i = 0; i < line - 1; ++i)
+    {
+        /* Throw away lines */
+        get_line(verse, 0, bible);
+    }
+    get_line(verse, VERSE_SIZE, bible);
 
     fclose(bible);
     return(TRUE);
 }
 
+/* Cross platform getline() implentation that works with stack bufs */
+size_t get_line(char extern_buf[], size_t len, FILE *stream)
+{
+    char buf[len];
+    char character;
+
+    /* If len <= 0, special behavior to skip line */
+    if (len <= 0)
+    {
+        while ((character = getc(stream)) != EOF)
+        {
+            if (character == '\n')
+                return(TRUE);
+        }
+        return(FALSE);
+    }
+
+    for (int i = 0; i < len; ++i)
+    {
+        if ((character = getc(stream)) != EOF)
+        {
+            buf[i] = character;
+            if (character == '\n')
+            {
+                break;
+            }
+        } 
+        else
+        {
+            break;
+        }
+
+    }
+    buf[len] = '\0';
+
+    strncpy(extern_buf, buf, len);
+    return(TRUE);
+}
+
 /* Generate number from 1 to VERSE_COUNT (naively seeded) */
-int generate_random()
+size_t generate_random()
 {
     uint16_t random;
-    uint16_t lower_bound = 1;
+    uint16_t lower_bound = 3;
 
     srand(time(NULL));
 

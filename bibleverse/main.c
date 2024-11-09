@@ -9,15 +9,18 @@
 #define TRUE 1
 #define FALSE 0
 
-int seek_verse(char verse[]);
+int seek_verse(char verse[], int line);
+int generate_random();
 
 /* Read a verse from bible.txt randomly and print it. */
 int main(void)
 {
+    uint16_t random;
     char verse_buf[VERSE_SIZE];
 
     /* Choose some verse at random */
-    if(!seek_verse(verse_buf))
+    random = generate_random();
+    if(!seek_verse(verse_buf, random))
     {
         puts("It's the Bible, you get credit for trying.");
         exit(-1);
@@ -26,16 +29,11 @@ int main(void)
     return(0);
 }
 
-int seek_verse(char verse[])
+/* Place some verse at `line` in `verse` */
+int seek_verse(char verse[], int line)
 {
     FILE* bible;
-    uint16_t random;
-    uint16_t lower_bound = 1;
 
-    srand(time(NULL));
-
-
-    random = rand() % (VERSE_COUNT - lower_bound + 1) + lower_bound; 
     bible = fopen("bible.txt", "r");
 
     if (bible == NULL) 
@@ -44,8 +42,24 @@ int seek_verse(char verse[])
         return FALSE;
     }
 
-    printf("max rand number: %d\n", random); 
+    
 
     fclose(bible);
     return(TRUE);
+}
+
+/* Generate number from 1 to VERSE_COUNT (naively seeded) */
+int generate_random()
+{
+    uint16_t random;
+    uint16_t lower_bound = 1;
+
+    srand(time(NULL));
+
+    /* Grab random verse line (range safety cuz im paranoid) */
+try_again:
+    random = rand() % (VERSE_COUNT - lower_bound + 1) + lower_bound; 
+    if (random <= 0 || random > VERSE_COUNT) goto try_again;
+
+    return(random);
 }
